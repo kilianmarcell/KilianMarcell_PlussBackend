@@ -2,18 +2,19 @@
 
 namespace Database\Seeders;
 
+use App\Models\Pluss;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class PlussSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      *
      * @return void
      */
     public function run()
     {
-        $this->call(PlussSeeder::class);
+        Pluss::factory(15)->create();
     }
 }
