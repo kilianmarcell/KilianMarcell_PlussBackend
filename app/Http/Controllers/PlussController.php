@@ -14,7 +14,8 @@ class PlussController extends Controller
      */
     public function index()
     {
-        //
+        $pluss = Pluss::all();
+        return response()->json($pluss);
     }
 
     /**
@@ -35,7 +36,9 @@ class PlussController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $pluss = new Pluss();
+        $pluss->fill($request->all())->save();
+        return response()->json($pluss, 201);
     }
 
     /**
@@ -44,9 +47,14 @@ class PlussController extends Controller
      * @param  \App\Models\Pluss  $pluss
      * @return \Illuminate\Http\Response
      */
-    public function show(Pluss $pluss)
+    public function show(int $id)
     {
-        //
+        $pluss = Pluss::find($id);
+
+        if (is_null($pluss)) {
+            return response()->json(["message" => "A megadott azonosítóval nem található plüssállat."], 404);
+        }
+        return response()->json($pluss);
     }
 
     /**
@@ -67,9 +75,11 @@ class PlussController extends Controller
      * @param  \App\Models\Pluss  $pluss
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pluss $pluss)
+    public function update(Request $request, int $id)
     {
-        //
+        $pluss = Pluss::findOrFail($id);
+        $pluss->fill($request->all())->save();
+        return response()->json($pluss, 200);
     }
 
     /**
@@ -78,8 +88,13 @@ class PlussController extends Controller
      * @param  \App\Models\Pluss  $pluss
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pluss $pluss)
+    public function destroy(int $id)
     {
-        //
+        $pluss = Pluss::find($id);
+        if (is_null($pluss)) {
+            return response()->json(["message" => "A megadott azonosítóval nem található plüssállat."], 404);
+        }
+        Pluss::destroy($id);
+        return response()->noContent();
     }
 }
